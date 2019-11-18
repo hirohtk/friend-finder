@@ -23,9 +23,13 @@
 
     <div class="container">
 
-        <h2>Answer these questions to become matched!</h2>
+        <h2>Answer these questions to become matched! <a href="/"><button style="font-size:24px; float:right"><i
+                        class="fa fa-home"></i></button></a></h2>
         <hr>
+        <div class="text-center">
 
+
+        </div>
         <h3><strong>About You</strong></h3>
         <h4>Name (Required)</h4>
         <form>
@@ -36,7 +40,7 @@
             <input type="text" class="form-control" id="photo" required>
         </form>
 
-<!--<form class="needs-validation" novalidate id="name">
+        <!--<form class="needs-validation" novalidate id="name">
             <div class="form-row">
               <div class="col-md-12 mb-3">
                 <label for="validationTooltip01">Name (Required)</label>
@@ -59,7 +63,7 @@
               </div>
               </div>
               </form>-->
-        
+
         <hr>
 
         <h3><strong>Question 1</strong></h3>
@@ -363,6 +367,7 @@
 
     <script type="text/javascript">
         $("#submit").on("click", function () {
+            let proceed1 = false;
             let answerArray = [];
             let ans1 = $('input[name=radio]:checked', '#q1').val();
             let ans2 = $('input[name=radio]:checked', '#q2').val();
@@ -379,50 +384,60 @@
             // returns true if there is an A that does not have a value between 1-5
             // returns false if not (if all values are within 1-5)
 
-            function checkArray(a) {
-                // return a that is NOT 1 AND 2 AND 3 AND 4 AND 5 
-                // OR isn't the same in English, this is saying like
-                // return a that is not all these values (value 1 AND value 2... etc)
-                //return a != "1" && "2" && "3" && "4" && "5";
-                // in the end though chose to just use undefined 
-                return a === undefined;
+            // function checkArray(a) {
+            //     // return a that is NOT 1 AND 2 AND 3 AND 4 AND 5 
+            //     // OR isn't the same in English, this is saying like
+            //     // return a that is not all these values (value 1 AND value 2... etc)
+            //     return a != "1" && "2" && "3" && "4" && "5";
+            // }
+            
+            function manualCheck(array) {
+                let pass = true;
+                for (i = 0; i < array.length; i++) {
+                    if (array[i] === undefined) {
+                        pass = false;
+                    }
+                }
+                if (pass) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
             }
 
-            // function findEmpty(b) {
-            //     return b === undefined;
-            // }
-            // answerArray.filter(findEmpty)
+            //  function findEmpty(b) {
+            //      return b != "1" && "2" && "3" && "4" && "5";
+            //  }
+            // console.log(answerArray.filter(findEmpty));
 
             if ($("#name").val() === "" || $("#photo").val() === "") {
                 alert("No name or photo link");
             }
-
-            console.log(answerArray.every(checkArray));
-            if (answerArray.every(checkArray)) {
-                //console.log(answerArray.filter(findEmpty));
-                tryAgain();
-            }
             else {
-                let newPerson = {
-                    name: $("#name").val(),
-                    photo: $("#photo").val(),
-                    answers: answerArray
-                }
-                console.log(newPerson);
-                $.post("/api/friends", newPerson)
-                    .then(function (data) {
-                        console.log(data);
-                        alert("Added you in!");
-                    });
+                postingStep();
             }
 
+            function postingStep() {
+                if (manualCheck(answerArray)) {
+                    let newPerson = {
+                        name: $("#name").val(),
+                        photo: $("#photo").val(),
+                        scores: answerArray
+                    }
+                    console.log(newPerson);
+                    $.post("/api/friends", newPerson)
+                        .then(function (data) {
+                            console.log(data);
+                            alert("Added you in!");
+                        });
+                }
+                else {
+                    alert("One or more of your questions are unanswered- try again.")
+                }
+            }
         });
-        function tryAgain() {
-            alert("One of the questions is unanswered- try again.")
-        }
-        // function missingName() {
-        //     alert("Please input a name and picture link.")
-        // }
+
     </script>
 
 </body>

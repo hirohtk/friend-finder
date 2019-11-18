@@ -1,4 +1,4 @@
-var characters = [
+var friends = [
     {
       name: "deep man",
       photo: "images/sea-pig-hand-mouth-random-man-37958727-480-360.jpg",
