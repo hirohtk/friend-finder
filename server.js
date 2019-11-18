@@ -3,6 +3,10 @@ var path = require("path");
 
 var app = express();
 
+let matchName;
+let matchPhoto;
+let matchIndex;
+
 // process.env.PORT if there is a port on process object that has an environment that has a PORT
 // will use the process.env.PORT in deployed phase, otherwise use port 3000 in development phase
 var PORT = process.env.PORT || 3000;
@@ -20,8 +24,14 @@ app.get("/survey", function (req, res) {
 });
 
 // Displays all people
-app.get("/api/friends", function (req, res) {
+app.get("/api/friendslist", function (req, res) {
     return res.json(friends);
+});
+
+app.get("/api/friends", function (req, res) {
+    // THIS IS THE "DATA" YOU GET WITH AN AJAX CALL.  JUST NEED MATCH INDEX HERE TO SELECT ONE OF THE FRIENDS
+    // DATA SHOULD BE RETURNED AS JSON SO YOU CAN JUST USE THIS LIKE AN API
+    return res.json(friends[matchIndex]);
 });
 
 var friends = [
@@ -57,18 +67,18 @@ app.post("/api/friends", function (req, res) {
 });
 
 function findMatch(input) {
-    let newPersonArray = input.scores;
+    let newPersonScoreArray = input.scores;
 
     let comparedArrays = [];
 
     let comparedArraySums = [];
 
-    // FOR EACH FRIEND, MINUS ONE SINCE NEWEST ALREADY GETS APPENDED TO THE END AT THIS POINT...
+    // FOR EACH FRIEND, MINUS ONE SINCE NEWEST ALREADY GETS APPENDED TO THE END AT THIS POINT... THIS WAY IT NEVER MATCHES YOU TO YOU
     for (let i = 0; i < friends.length - 1; i++) {
     // ..RUN THIS FOR LOOP WHICH MAKES A NEW ARRAY THAT TAKES THE DIFFERENCE OF EACH VALUE AT SCORE INDEX 
     // AND STORES IT AS A NEW INDEX IN THIS NEW ARRAY.  IT WORKS ON SAME FRIEND[i] IN ONE OF THIS FOR LOOP UNTIL DONE, THEN MOVE TO NEXT.
         for (let j = 0; j < 9; j++) {
-            comparedArrays[i] = newPersonArray.map(x => Math.abs(x - friends[i].scores[j]));
+            comparedArrays[i] = newPersonScoreArray.map(x => Math.abs(x - friends[i].scores[j]));
         }
     }
     console.log(comparedArrays);
@@ -85,7 +95,13 @@ function findMatch(input) {
     //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply
     const min = Math.min.apply(null, comparedArraySums);
 
-    comparedArraySums.indexOf(min);
+    matchIndex = comparedArraySums.indexOf(min);
+
+    matchName = friends[matchIndex].name;
+    matchPhoto = friends[matchIndex].photo;
+
+    console.log("Your best match is " + matchName);
+    console.log("Your match's photo is " + matchPhoto);
 }
 
 // Starts the server to begin listening
