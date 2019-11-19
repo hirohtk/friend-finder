@@ -224,7 +224,8 @@
 
 
         <h3><strong>Question 7</strong></h3>
-        <h4>10/10 times you choose the red pill that some guy named Morpheus gives you and see how far down this rabbit hole goes.</h4>
+        <h4>10/10 times you choose the red pill that some guy named Morpheus gives you and see how far down this rabbit
+            hole goes.</h4>
         <form id="q7">
             <div class="custom-control custom-radio custom-control-inline">
                 <input type="radio" id="customRadioInline1" name="radio" class="custom-control-input" value="1">
@@ -364,6 +365,28 @@
         </div>
     </div>
 
+    <div id="empty-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h2 class="modal-title"><strong>One or more of your answers is missing!  See those marked in pink.</strong></h2>
+                </div>
+                <div class="modal-body">
+                    <h2 id="match-name"></h2>
+                    <img id="match-img" src="" alt="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
     <script type="text/javascript">
         $("#submit").on("click", function () {
             let proceed1 = false;
@@ -405,10 +428,7 @@
                 }
             }
 
-            //  function findEmpty(b) {
-            //      return b != "1" && "2" && "3" && "4" && "5";
-            //  }
-            // console.log(answerArray.filter(findEmpty));
+
 
             if ($("#name").val() === "" || $("#photo").val() === "") {
                 alert("No name or photo link");
@@ -427,28 +447,49 @@
                     console.log(newPerson);
                     $.post("/api/friends", newPerson)
                         .then(function (data) {
+                            for (let j = 1; j < answerArray.length + 1; j++) {
+                                $("#q" + j + "").attr("style", "background-color: white");
+                            }
+                            $('#empty').remove();
                             console.log(data);
                             alert("Added you in!");
                             displayMatch();
                         });
                 }
                 else {
-                    alert("One or more of your questions are unanswered- try again.")
+                    // console.log(answerArray);
+                    // let emptyAnswers = [];
+                    function showEmpty(array) {
+                        for (let j = 0; j < array.length; j++) {
+                            if (array[j] === undefined) {
+                                // emptyAnswers.push(j);
+                                $("#q" + (j + 1) + "").attr("style", "background-color: pink");
+                            }
+                            else {
+                                $("#q" + (j + 1) + "").attr("style", "background-color: white");
+                            }
+                        }
+
+                    }
+                    //  With the visual jQuery attr set to pink, finding the index values of empties wasn't needed.  
+                    showEmpty(answerArray);
+                    $("#empty-modal").modal();
+                    // console.log(emptyAnswers);
                 }
             }
             function displayMatch() {
-                $.get("/api/friends", function(data) {
+                $.get("/api/friends", function (data) {
                     console.log(data);
                     if (data) {
-                    $("#results-modal").modal();
-                    $("#match-name").text(data.name);
-                    $("#match-img").attr("src", data.photo);
+                        $("#results-modal").modal();
+                        $("#match-name").text(data.name);
+                        $("#match-img").attr("src", data.photo);
                     } else {
-                      alert("Something Broke");
+                        alert("Something Broke");
                     }
-                  });
+                });
             }
-            
+
         });
 
     </script>
