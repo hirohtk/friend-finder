@@ -1,5 +1,6 @@
 var express = require("express");
 var path = require("path");
+// var friends1 = require("./app/data/friends");
 
 var app = express();
 
@@ -34,23 +35,22 @@ app.get("/api/friends", function (req, res) {
     return res.json(friends[matchIndex]);
 });
 
-var friends = [
-    {
-        name: "George",
-        photo: "http://images6.fanpop.com/image/photos/37900000/-standing-up-random-man-37958716-200-300.jpg",
-        scores: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-    },
-    {
-        name: "Kil'Jaeden, the Deciever",
-        photo: "https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwiAjOax8_LlAhVDrZ4KHaw1A1sQjRx6BAgBEAQ&url=https%3A%2F%2Fwowwiki.fandom.com%2Fwiki%2FKil%2527jaeden&psig=AOvVaw1zSwWXVO-x91A1El4AgnqX&ust=1574136985697436",
-        scores: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
-    },
-    {
-        name: "Tyson Chandler",
-        photo: "https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwjpharv8vLlAhXJqZ4KHUgwBGUQjRx6BAgBEAQ&url=https%3A%2F%2Fwww.espn.com%2Fnba%2Fplayer%2F_%2Fid%2F984%2Ftyson-chandler&psig=AOvVaw2wh96knYpEqw5xQw1GYQ3v&ust=1574136845055366",
-        scores: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
-    }
-];
+// let friends = friends1.friendsObject;
+let friends = [{
+    name: "George",
+    photo: "http://images6.fanpop.com/image/photos/37900000/-standing-up-random-man-37958716-200-300.jpg",
+    scores: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+},
+{
+    name: "Kil'Jaeden, the Deciever",
+    photo: "https://pbs.twimg.com/media/CuahpQSXEAAdYLP.jpg",
+    scores: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+},
+{
+    name: "JaVale McGee",
+    photo: "https://usatwarriorswire.files.wordpress.com/2018/06/usatsi_10790701.jpg?w=1000&h=600&crop=1",
+    scores: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+}]
 
 // Create New 'People' - takes in JSON input
 app.post("/api/friends", function (req, res) {
