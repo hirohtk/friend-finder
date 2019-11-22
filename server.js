@@ -1,6 +1,8 @@
 var express = require("express");
 var path = require("path");
-// var friends1 = require("./app/data/friends");
+
+//
+var friends = require("./app/data/friends");
 
 var app = express();
 
@@ -35,22 +37,21 @@ app.get("/api/friends", function (req, res) {
     return res.json(friends[matchIndex]);
 });
 
-// let friends = friends1.friendsObject;
-let friends = [{
-    name: "George",
-    photo: "http://images6.fanpop.com/image/photos/37900000/-standing-up-random-man-37958716-200-300.jpg",
-    scores: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-},
-{
-    name: "Kil'Jaeden, the Deciever",
-    photo: "https://pbs.twimg.com/media/CuahpQSXEAAdYLP.jpg",
-    scores: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
-},
-{
-    name: "JaVale McGee",
-    photo: "https://usatwarriorswire.files.wordpress.com/2018/06/usatsi_10790701.jpg?w=1000&h=600&crop=1",
-    scores: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
-}]
+// let friends = [{
+//     name: "George",
+//     photo: "http://images6.fanpop.com/image/photos/37900000/-standing-up-random-man-37958716-200-300.jpg",
+//     scores: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+// },
+// {
+//     name: "Kil'Jaeden, the Deciever",
+//     photo: "https://pbs.twimg.com/media/CuahpQSXEAAdYLP.jpg",
+//     scores: [3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+// },
+// {
+//     name: "JaVale McGee",
+//     photo: "https://usatwarriorswire.files.wordpress.com/2018/06/usatsi_10790701.jpg?w=1000&h=600&crop=1",
+//     scores: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+// }]
 
 // Create New 'People' - takes in JSON input
 app.post("/api/friends", function (req, res) {

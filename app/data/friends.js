@@ -1,5 +1,4 @@
-var friendsObject = {
-  friends: [{
+var friends = [{
     name: "George",
     photo: "http://images6.fanpop.com/image/photos/37900000/-standing-up-random-man-37958716-200-300.jpg",
     scores: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
@@ -14,10 +13,10 @@ var friendsObject = {
     photo: "https://usatwarriorswire.files.wordpress.com/2018/06/usatsi_10790701.jpg?w=1000&h=600&crop=1",
     scores: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
 }]
-};
+
 
 // friendsObject.friends is the array
 
 module.exports = {
-  friendsObject: friendsObject
+  friends: friends
 };
