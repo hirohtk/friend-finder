@@ -18,7 +18,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
 
     <style>
-        #match-img {width: 100%}
+        #match-img {
+            width: 100%
+        }
+
+        @keyframes redin {
+            0% {
+                background-color: white;
+            }
+
+            50% {
+                background-color: pink;
+            }
+            100% {
+                background-color: white;
+            }
+        }
+
+        .redIn{
+           
+            animation-delay: 0s;
+            animation-name: redin;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+            
+        }
     </style>
 </head>
 
@@ -396,7 +420,8 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h2 class="modal-title"><strong>One or more of your answers is missing!  See those marked in pink.</strong></h2>
+                    <h2 class="modal-title"><strong>One or more of your answers is missing! See those marked in
+                            pink.</strong></h2>
                 </div>
                 <div class="modal-body">
                     <h2 id="match-name"></h2>
@@ -436,7 +461,7 @@
             //     // return a that is not all these values (value 1 AND value 2... etc)
             //     return a != "1" && "2" && "3" && "4" && "5";
             // }
-            
+
             function manualCheck(array) {
                 let pass = true;
                 for (i = 0; i < array.length; i++) {
@@ -473,6 +498,7 @@
                         .then(function (data) {
                             for (let j = 1; j < answerArray.length + 1; j++) {
                                 $("#q" + j + "").attr("style", "background-color: white");
+                                
                             }
                             $('#empty').remove();
                             console.log(data);
@@ -487,9 +513,10 @@
                         for (let j = 0; j < array.length; j++) {
                             if (array[j] === undefined) {
                                 // emptyAnswers.push(j);
-                                $("#q" + (j + 1) + "").attr("style", "background-color: pink");
+                                $("#q" + (j + 1) + "").addClass("redIn");
                             }
                             else {
+                                $("#q" + (j + 1) + "").removeClass("redIn");
                                 $("#q" + (j + 1) + "").attr("style", "background-color: white");
                             }
                         }
@@ -508,7 +535,11 @@
                         $("#results-modal").modal();
                         $("#match-name").text(data.name);
                         $("#match-img").attr("src", data.photo);
-                    } else {
+                        for (let k = 0; k < answerArray.length; k++) {
+                            $("#q" + (k + 1) + "").removeClass("redIn")
+                        };
+                    }
+                     else {
                         alert("Something Broke");
                     }
                 });
